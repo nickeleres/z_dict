@@ -45,7 +45,8 @@
 
 		(function($){
 
-		//---------SINGLE ENTRY MODEL----------
+
+			//---------SINGLE ENTRY MODEL----------
 				var Entry = Backbone.Model.extend({
 					defaults: function(){
 						return{
@@ -57,7 +58,6 @@
 
 			//------------ENTRY MODEL COLLECTION------------
 			EntryList = Backbone.Collection.extend({
-					localStorage: new Backbone.LocalStorage('saved'),
 
 					model: Entry
 				});
