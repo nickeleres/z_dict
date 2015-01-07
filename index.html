@@ -7,41 +7,15 @@
 	<link rel="stylesheet" href="base.css">
 </head>
 <body background="bg.png">
-	<div class="row" id="header">
-		<div class="col-sm-12">
-			<h2>dictionary</h2>
-		</div>
-	</div>
-	<div class="row" id="upper">
-		<div class="col-xs-12">
-			<form class="navbar-form navbar-center" role="search" id="new-entry">
-		  		<div class="form-group" id="body">
-		    		<input type="text" class="form-control" id="word" placeholder="word">
-		    		<input type="text" class="form-control" id="definition" placeholder="definition">
-		  		</div>
-		  		<button type="commit" class="btn btn-inverse">commit</button>
-		  		<a href="#/login" class="btn btn-primary"> login </a>
-			</form>
-		</div>
-	</div>
-	<div class="row" id="lower">
-		<div class="col-sm-12">
-			<div class="col-sm-6">
-				<h3>new entries</h3>
-				<div id="entries"></div>
-			</div>
-			<div class="col-sm-6">
-				<h3>saved entries</h3>
-				<div id="saved"></div>
-			</div>
-		</div>
-	</div>
 
+<div class="row">
+	<div class="col-sm-12" id='main'></div>
+</div>
 		<!-- TEMPLATES -->
-
 		<script type='text/template' id='login_template'>
 
 			<div class="container">
+			<h2> dictionary </h2>
 			    <div class="row">
 			        <div class="col-md-offset-5 col-md-3">
 			            <div class="form-login">
@@ -61,6 +35,41 @@
 			</div>
 		</script>
 
+
+		<script type="text/template" id="home_template">
+
+			<div class="row" id="header">
+				<div class="col-sm-12">
+					<h2>dictionary</h2>
+				</div>
+			</div>
+			<div class="row" id="upper">
+				<div class="col-xs-12">
+					<form class="navbar-form navbar-center" role="search" id="new-entry">
+				  		<div class="form-group" id="body">
+				    		<input type="text" class="form-control" id="word" placeholder="word">
+				    		<input type="text" class="form-control" id="definition" placeholder="definition">
+				  		</div>
+				  		<button type="commit" class="btn btn-inverse">commit</button>
+				  		<a href="#/login" class="btn btn-primary"> login </a>
+					</form>
+				</div>
+			</div>
+			<div class="row" id="lower">
+				<div class="col-sm-12">
+					<div class="col-sm-6">
+						<h3>new entries</h3>
+						<div id="entries"></div>
+					</div>
+					<div class="col-sm-6">
+						<h3>saved entries</h3>
+						<div id="saved"></div>
+					</div>
+				</div>
+			</div>
+		</script>
+
+
 		<script type="text/template" id="dictionary_template">
 
 			<span style='font-weight:bold' class="word"> <%= word %>-</span>
@@ -69,24 +78,6 @@
 			<button type='button' class='save btn btn-success btn-xs'> save </button>
 			<button type='button' class='delete btn btn-danger btn-xs'> delete </button>
 		</script>
-
-	
-		<script type="text/template" id="new_template">
-
-			var test = [{word: "word", definition:"definition"}, {word: 'definition', definition:'word'}];
-				<table class="table striped">
-					<tbody>
-						<% _.each(dictionary, function(user){ %>
-							<tr>
-								<td> <%= user.get('word')%></td>
-								<td> <%= user.get('definition')%></td>
-							</tr>
-						<% }) %>
-					</tbody>
-				</table>
-
-		</script>
-
 
 	<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 	<script src="//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.7.0/underscore-min.js"></script>

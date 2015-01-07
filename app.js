@@ -85,7 +85,7 @@
 			//--------------DICTIONARY VIEW------------
 			var DictionaryView = Backbone.View.extend({
 				model: dictionary,
-				el: $('#header'),
+				el: '#entries',
 
 				initialize: function(){
 					this.model.on('add', this.render, this);
@@ -94,7 +94,10 @@
 				},
 
 				render: function(){
+					// this.$el = $('#entries');
+
 					var self = this;
+					console.log(self.$el);
 					self.$el.html('');
 					_.each(this.model.toArray(), function(entry, i){
 						self.$el.append((new EntryView({model: entry})).render().$el);
@@ -107,7 +110,7 @@
 			//---------SAVED ENTRY VIEW-----------
 			var SavedView = Backbone.View.extend({
 				model: saved,
-				el: $('#header'),
+				el: '#saved',
 
 				initialize: function(){
 					this.model.on('add', this.savedRender, this);
@@ -128,15 +131,27 @@
 
 			//---------LOGIN VIEW----------------
 			var LoginView = Backbone.View.extend({
-				el: $('#header'),
+				el: $('#main'),
 
 				render: function(){
 
 					this.template = _.template($('#login_template').html());
 
-					this.$el.html(this.template(this.template));
+					this.$el.html(this.template);
 				}
 			});
+
+			//------------HOME VIEW--------------
+			var HomeView = Backbone.View.extend({
+				el:$('#main'),
+
+				render: function(){
+
+					this.template = _.template($('#home_template').html());
+
+					this.$el.html(this.template);
+				}
+			})
 
 
 			//-------BINDING DATA ENTRY TO NEW MODEL VIEW-------
@@ -170,8 +185,7 @@
 				}
 			});
 
-			var dictionaryView = new DictionaryView();
-			var entryView = new EntryView();
+			var homeView = new HomeView();
 			var loginView = new LoginView();
 
 			var router = new Router();
@@ -180,7 +194,7 @@
 
 				console.log('router home');
 
-				entryView.render();
+				homeView.render();
 
 				});
 
