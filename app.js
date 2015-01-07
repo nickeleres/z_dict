@@ -38,7 +38,6 @@
 
 				initialize: function(){
 					this.template = _.template($("#dictionary_template").html());
-					// this.template = _.template($("#new_template").html());
 
 				},
 
@@ -86,7 +85,7 @@
 			//--------------DICTIONARY VIEW------------
 			var DictionaryView = Backbone.View.extend({
 				model: dictionary,
-				el: $('#entries'),
+				el: $('#header'),
 
 				initialize: function(){
 					this.model.on('add', this.render, this);
@@ -108,7 +107,7 @@
 			//---------SAVED ENTRY VIEW-----------
 			var SavedView = Backbone.View.extend({
 				model: saved,
-				el: $('#saved'),
+				el: $('#header'),
 
 				initialize: function(){
 					this.model.on('add', this.savedRender, this);
@@ -129,11 +128,13 @@
 
 			//---------LOGIN VIEW----------------
 			var LoginView = Backbone.View.extend({
-				el: $('page'),
+				el: $('#header'),
 
 				render: function(){
 
-					this.$el.html('login page');
+					this.template = _.template($('#login_template').html());
+
+					this.$el.html(this.template(this.template));
 				}
 			});
 
@@ -155,6 +156,7 @@
 				});
 
 				var appView = new DictionaryView();
+
 				var savedView = new SavedView();
 			});
 
@@ -163,25 +165,31 @@
 			var Router =  Backbone.Router.extend({
 
 				routes:{
-					'':'home',
-					'new': 'newEvent',
+					'home':'home',
 					'login': 'login' 
 				}
 			});
 
+			var dictionaryView = new DictionaryView();
+			var entryView = new EntryView();
 			var loginView = new LoginView();
 
 			var router = new Router();
 
 			router.on('route:home', function(){
+
 				console.log('router home');
+
+				entryView.render();
+
 				});
-			router.on('route:newEvent', function(){
-				console.log('router new');
-				});
+
 			router.on('route:login', function(){
+
 				console.log('login page');
+
 				loginView.render();
+
 				});
 
 			Backbone.history.start();
