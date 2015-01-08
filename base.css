@@ -1,8 +1,8 @@
-.row, h2, h3{
+.row, h3{
 	padding-left: 0.75em;
 }
 
-#entries {
+#entries, h2 {
     padding-left: 1em;
     padding-top: 0.5em;
 }
