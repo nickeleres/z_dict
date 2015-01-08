@@ -84,8 +84,8 @@
 
 			//--------------DICTIONARY VIEW------------
 			var DictionaryView = Backbone.View.extend({
+
 				model: dictionary,
-				el: '#entries',
 
 				initialize: function(){
 					this.model.on('add', this.render, this);
@@ -94,13 +94,14 @@
 				},
 
 				render: function(){
-					// this.$el = $('#entries');
+
+					this.$el = $('#entries');
 
 					var self = this;
-					console.log(self.$el);
+
 					self.$el.html('');
 					_.each(this.model.toArray(), function(entry, i){
-						self.$el.append((new EntryView({model: entry})).render().$el);
+						self.$el.append(new EntryView({model: entry}).render().$el);
 					});
 
 					return this;
@@ -120,6 +121,7 @@
 
 				savedRender: function(){
 					var self = this;
+					console.log('savedRender');
 					self.$el.html('');
 					_.each(this.model.toArray(), function(entry, i){
 						self.$el.append(new EntryView({model: entry}).render().$el);
@@ -138,6 +140,18 @@
 					this.template = _.template($('#login_template').html());
 
 					this.$el.html(this.template);
+
+					$('#login').submit(function(ev){
+
+						var userName = $('#userName').val();
+						var userPass = $('#userPassword').val();
+
+						console.log('logged username is ' + userName);
+						console.log('logged password is ' + userPass);
+
+						$('#login').children('input').val('');
+
+					});
 				}
 			});
 
@@ -150,13 +164,8 @@
 					this.template = _.template($('#home_template').html());
 
 					this.$el.html(this.template);
-				}
-			})
 
-
-			//-------BINDING DATA ENTRY TO NEW MODEL VIEW-------
-			$(document).ready(function(){
-				$('#new-entry').submit(function(ev){
+					$('#new-entry').submit(function(ev){
 					var entry = new Entry({word: $('#word').val(), definition: $('#definition').val() });
 
 					dictionary.add(entry);
@@ -165,21 +174,20 @@
 
 					console.log(dictionary.toJSON());
 
-					$('.form-group').children('input').val('');
+					$('#body').children('input').val('');
 
 					return false;
-				});
+				
+					});
 
-				var appView = new DictionaryView();
-
-				var savedView = new SavedView();
-			});
-
+				}
+			})
 
 			//--------------ROUTER----------------
 			var Router =  Backbone.Router.extend({
 
 				routes:{
+					'': 'home',
 					'home':'home',
 					'login': 'login' 
 				}
@@ -200,7 +208,7 @@
 
 			router.on('route:login', function(){
 
-				console.log('login page');
+				console.log('router login');
 
 				loginView.render();
 
@@ -208,7 +216,17 @@
 
 			Backbone.history.start();
 
-		})(jQuery);
+
+			//-------BINDING DATA ENTRY TO NEW MODEL VIEW-------
+			$(document).ready(function(){
+
+			});
+
+		var appView = new DictionaryView();
+
+		var savedView = new SavedView();
+
+	})(jQuery);
 
 
 
