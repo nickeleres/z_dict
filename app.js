@@ -94,7 +94,6 @@
 				},
 
 				render: function(){
-
 					this.$el = $('#entries');
 
 					var self = this;
@@ -111,17 +110,18 @@
 			//---------SAVED ENTRY VIEW-----------
 			var SavedView = Backbone.View.extend({
 				model: saved,
-				el: '#saved',
+				// el: '#saved',
 
 				initialize: function(){
-					this.model.on('add', this.savedRender, this);
-					this.model.on('remove', this.savedRender, this);
+					this.model.on('add', this.render, this);
+					this.model.on('remove', this.render, this);
 
 				},
 
-				savedRender: function(){
+				render: function(){
+					this.$el = $('#saved');
 					var self = this;
-					console.log('savedRender');
+					console.log('render');
 					self.$el.html('');
 					_.each(this.model.toArray(), function(entry, i){
 						self.$el.append(new EntryView({model: entry}).render().$el);
@@ -195,6 +195,8 @@
 
 			var homeView = new HomeView();
 			var loginView = new LoginView();
+			var savedView = new SavedView();
+			var dictionaryView = new DictionaryView();
 
 			var router = new Router();
 
@@ -203,6 +205,8 @@
 				console.log('router home');
 
 				homeView.render();
+				dictionaryView.render();
+				savedView.render();
 
 				});
 
@@ -215,12 +219,6 @@
 				});
 
 			Backbone.history.start();
-
-
-			//-------BINDING DATA ENTRY TO NEW MODEL VIEW-------
-			$(document).ready(function(){
-
-			});
 
 		var appView = new DictionaryView();
 
