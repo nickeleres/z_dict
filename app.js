@@ -54,7 +54,7 @@
 
 				delete: function(ev){
 					ev.preventDefault;
-					dictionary.remove(this.model);
+					// dictionary.remove(this.model);
 					(this.model).destroy({success: function(model, response){
 						console.log('destroyed');
 					}});
