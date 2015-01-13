@@ -1,27 +1,38 @@
+
 (function($){
 
 
 			//---------SINGLE ENTRY MODEL----------
-				var Entry = Backbone.Model.extend({
+			var Entry = Backbone.Model.extend({
+
+					urlRoot: '/api/bears/',
+
 					defaults: function(){
 						return{
-							word: '',
-							definition: ''
+
+							task: '',
+							description: ''
 						}
-					}
+					},
+
+					parse: function(response){
+						response.id = response._id;
+						return response;
+					},
+
+					idAttribute: "_id",
 				});
 
 			//------------ENTRY MODEL COLLECTION------------
-			EntryList = Backbone.Collection.extend({
+			var EntryList = Backbone.Collection.extend({
+
+					url: '/api/bears',
 
 					model: Entry
 				});
 
 			//-----INSTANCIATE COLLECTION----
 			var dictionary = new EntryList();
-			var saved = new EntryList();
-
-
 
 			//-----SINGLE ENTRY VIEW------
 			var EntryView = Backbone.View.extend({
@@ -44,7 +55,9 @@
 				delete: function(ev){
 					ev.preventDefault;
 					dictionary.remove(this.model);
-					saved.remove(this.model);
+					(this.model).destroy({success: function(model, response){
+						console.log('destroyed');
+					}});
 
 				},
 
@@ -88,8 +101,11 @@
 				model: dictionary,
 
 				initialize: function(){
+					this.model.fetch();
+
 					this.model.on('add', this.render, this);
 					this.model.on('remove', this.render, this);
+					this.model.on('reset', this.render, this);
 
 				},
 
@@ -98,30 +114,6 @@
 
 					var self = this;
 
-					self.$el.html('');
-					_.each(this.model.toArray(), function(entry, i){
-						self.$el.append(new EntryView({model: entry}).render().$el);
-					});
-
-					return this;
-				}
-			});
-
-			//---------SAVED ENTRY VIEW-----------
-			var SavedView = Backbone.View.extend({
-				model: saved,
-				// el: '#saved',
-
-				initialize: function(){
-					this.model.on('add', this.render, this);
-					this.model.on('remove', this.render, this);
-
-				},
-
-				render: function(){
-					this.$el = $('#saved');
-					var self = this;
-					console.log('render');
 					self.$el.html('');
 					_.each(this.model.toArray(), function(entry, i){
 						self.$el.append(new EntryView({model: entry}).render().$el);
@@ -166,17 +158,18 @@
 					this.$el.html(this.template);
 
 					$('#new-entry').submit(function(ev){
-					var entry = new Entry({word: $('#word').val(), definition: $('#definition').val() });
 
-					dictionary.add(entry);
+						var entry = new Entry({task: $('#word').val(), description: $('#definition').val() });
 
-					dictionary.comparator = 'word';
+						dictionary.add(entry);
 
-					console.log(dictionary.toJSON());
+						entry.save();
 
-					$('#body').children('input').val('');
+						console.log(dictionary.toJSON());
 
-					return false;
+						$('#body').children('input').val('');
+
+						return false;
 				
 					});
 
@@ -195,9 +188,7 @@
 
 			var homeView = new HomeView();
 			var loginView = new LoginView();
-			var savedView = new SavedView();
 			var dictionaryView = new DictionaryView();
-
 			var router = new Router();
 
 			router.on('route:home', function(){
@@ -206,7 +197,6 @@
 
 				homeView.render();
 				dictionaryView.render();
-				savedView.render();
 
 				});
 
@@ -222,15 +212,32 @@
 
 		var appView = new DictionaryView();
 
-		var savedView = new SavedView();
-
 	})(jQuery);
 
 
+	// //---------SAVED ENTRY VIEW-----------
+	// 		var SavedView = Backbone.View.extend({
 
+	// 			model: saved,
 
+	// 			initialize: function(){
+	// 				this.model.fetch();
 
+	// 				this.model.on('add', this.render, this);
+	// 				this.model.on('remove', this.render, this);
+	// 				this.model.on('reset', this.render, this);
 
+	// 			},
 
+	// 			render: function(){
+	// 				this.$el = $('#saved');
+	// 				var self = this;
+	// 				console.log('render');
+	// 				self.$el.html('');
+	// 				_.each(this.model.toArray(), function(entry, i){
+	// 					self.$el.append(new EntryView({model: entry}).render().$el);
+	// 				});
 
-
+	// 				return this;
+	// 			}
+	// 		});

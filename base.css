@@ -3,7 +3,7 @@
 }
 
 #entries, h2 {
-    padding-left: 1em;
+    padding-left: 1.2em;
     padding-top: 0.5em;
 }
 
@@ -44,3 +44,9 @@ h4 {
 .wrapper {
     text-align: center;
 }
+
+#tasks:nth-child(1){
+    text-align: center;
+}
+
+

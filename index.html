@@ -2,7 +2,7 @@
 <html>
 <head>
 	<meta charset="utf-8"/>
-	<title>dictionary</title>
+	<title>kaleo</title>
 	<link rel = "stylesheet" href = "http://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
 	<link rel="stylesheet" href="base.css">
 </head>
@@ -37,7 +37,7 @@
 		<script type="text/template" id="home_template">
 
 			<div class="row" id="header">
-				<h2>dictionary</h2>
+				<h2>kaleo</h2>
 				<div class="col-sm-12">
 				</div>
 			</div>
@@ -54,27 +54,22 @@
 				</div>
 			</div>
 			<div class="row" id="lower">
-				<div class="col-sm-6">
-					<h3>new entries</h3>
+				<div class="col-sm-3" id="tasks">
+					<h3>tasks</h3>
 					<div id="entries"></div>
-				</div>
-				<div class="col-sm-6">
-					<h3>saved entries</h3>
-					<div id="saved"></div>
 				</div>
 			</div>
 		</script>
 
-
 		<script type="text/template" id="dictionary_template">
 
-			<span style='font-weight:bold' class="word"> <%= word %>-</span>
-			<span class="definition"> <%= definition %> </span>
+			<span style='font-weight:bold' class="word"> <%= task %>-</span>
+			<span class="definition"> <%= description %> </span>
 			<button type='button' class='edit btn btn-primary btn-xs'> edit </button>
-			<button type='button' class='save btn btn-success btn-xs'> save </button>
+			<button type='button' class='save btn btn-success btn-xs'> complete </button>
 			<button type='button' class='delete btn btn-danger btn-xs'> delete </button>
 		</script>
-
+		
 	<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 	<script src="//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.7.0/underscore-min.js"></script>
 	<script src="//cdnjs.cloudflare.com/ajax/libs/backbone.js/1.1.2/backbone-min.js"></script>
