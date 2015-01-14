@@ -11,6 +11,8 @@
 	padding-bottom: 1em;
 }
 
+/********/
+
 @import url(http://fonts.googleapis.com/css?family=Roboto:400);
 body {
   background-color:#fff;
@@ -41,12 +43,12 @@ h4 {
     border-radius: 10px;
 }
 
-.wrapper {
+/*******/
+
+#tasks{
     text-align: center;
 }
 
-#tasks:nth-child(1){
-    text-align: center;
+.toggle{
+    opacity: 0.4;
 }
-
-

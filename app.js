@@ -37,12 +37,13 @@
 			//-----SINGLE ENTRY VIEW------
 			var EntryView = Backbone.View.extend({
 				model: new Entry(),
-				tagName:'div',
+				tagName:'tr',
 				className: 'singleEntry',
 
 				events:{
 					'click .edit': 'edit',
 					'click .delete': 'delete',
+					'click .completed': 'completed',
 					'keypress .definition': 'updateOnEnter',
 					'click .save': 'save'
 				},
@@ -54,7 +55,6 @@
 
 				delete: function(ev){
 					ev.preventDefault;
-					// dictionary.remove(this.model);
 					(this.model).destroy({success: function(model, response){
 						console.log('destroyed');
 					}});
@@ -64,15 +64,6 @@
 				edit: function(ev){
 					ev.preventDefault;
 					this.$('.definition').attr('contenteditable', true).focus();
-
-				},
-
-				save: function(ev){
-					ev.preventDefault;
-					saved.add(this.model);
-					dictionary.remove(this.model);
-					saved.comparator = 'word';
-					console.log(this.model.toJSON());
 
 				},
 
@@ -92,7 +83,20 @@
 				render: function(){
 					this.$el.html(this.template(this.model.toJSON()));
 					return this;
+				},
+
+				completed: function(){
+					var task = this.$('.actions');
+					
+					if(!task.hasClass('toggle')){
+
+						task.addClass('toggle');
+					} else {
+						task.removeClass('toggle');
+					}
+					
 				}
+
 			});
 
 			//--------------DICTIONARY VIEW------------
@@ -214,30 +218,3 @@
 
 	})(jQuery);
 
-
-	// //---------SAVED ENTRY VIEW-----------
-	// 		var SavedView = Backbone.View.extend({
-
-	// 			model: saved,
-
-	// 			initialize: function(){
-	// 				this.model.fetch();
-
-	// 				this.model.on('add', this.render, this);
-	// 				this.model.on('remove', this.render, this);
-	// 				this.model.on('reset', this.render, this);
-
-	// 			},
-
-	// 			render: function(){
-	// 				this.$el = $('#saved');
-	// 				var self = this;
-	// 				console.log('render');
-	// 				self.$el.html('');
-	// 				_.each(this.model.toArray(), function(entry, i){
-	// 					self.$el.append(new EntryView({model: entry}).render().$el);
-	// 				});
-
-	// 				return this;
-	// 			}
-	// 		});
