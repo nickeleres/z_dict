@@ -2,7 +2,7 @@
 	padding-left: 0.75em;
 }
 
-#entries, h2 {
+#entries, #lists h2 {
     padding-left: 1.2em;
     padding-top: 0.5em;
 }
@@ -45,7 +45,7 @@ h4 {
 
 /*******/
 
-#tasks{
+#tasks, #lists{
     text-align: center;
 }
 

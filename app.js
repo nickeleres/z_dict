@@ -33,11 +33,12 @@
 
 			//-----INSTANCIATE COLLECTION----
 			var dictionary = new EntryList();
+			var lists = new EntryList();
 
 			//-----SINGLE ENTRY VIEW------
 			var EntryView = Backbone.View.extend({
 				model: new Entry(),
-				tagName:'tr',
+				tagName:'div',
 				className: 'singleEntry',
 
 				events:{
@@ -69,7 +70,8 @@
 
 				close: function(){
 					var definition = this.$('.definition').text();
-					this.model.set('definition', definition);
+					this.model.set('description', definition);
+					this.model.save();
 					this.$('.definition').attr('contenteditable', false).blur();
 
 				},
@@ -86,17 +88,22 @@
 				},
 
 				completed: function(){
-					var task = this.$('.actions');
-					
+					var task = (this).$el;
+
+					console.log(task);
+
 					if(!task.hasClass('toggle')){
 
 						task.addClass('toggle');
+
+						$('#entries').append(task);
+
 					} else {
 						task.removeClass('toggle');
-					}
-					
-				}
 
+						$('#entries').prepend(task);
+					}
+				}
 			});
 
 			//--------------DICTIONARY VIEW------------
