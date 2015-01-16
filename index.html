@@ -38,33 +38,30 @@
 
 			<div class="row" id="header">
 				<h2>kaleo</h2>
-				<div class="col-sm-12">
-				</div>
-			</div>
-			<div class="row" id="upper">
-				<div class="col-xs-6">
-					<form class="navbar-form navbar-center" id="new-list">
-				  		<div class="form-group" id="body">
-				    		<input type="text" class="form-control" id="list" placeholder="list">
-				  		</div>
-					  		<button type="commit" class="btn btn-primary">create</button>
-					</form>
-				</div>
-
-				<div class="col-xs-6">
-					<form class="navbar-form navbar-center" role="search" id="new-entry">
-				  		<div class="form-group" id="body">
-				    		<input type="text" class="form-control" id="word" placeholder="task">
-				    		<input type="text" class="form-control" id="definition" placeholder="description">
-				  		</div>
-					  		<button type="commit" class="btn btn-primary">commit</button>
-					</form>
-				</div>
+				<div class="row">
+					<div class="col-xs-6">
+						<form class="navbar-form navbar-center" id="new-list">
+					  		<div class="form-group" id="list-body">
+					    		<input type="text" class="form-control" id="list" placeholder="list">
+					  		</div>
+						  		<button type="commit" class="btn btn-primary">create</button>
+						</form>
+					</div>
+					<div class="col-xs-6">
+						<form class="navbar-form navbar-center" id="new-entry">
+					  		<div class="form-group" id="tasks-body">
+					    		<input type="text" class="form-control" id="word" placeholder="task">
+					    		<input type="text" class="form-control" id="definition" placeholder="description">
+					  		</div>
+						  		<button type="commit" class="btn btn-primary">commit</button>
+						</form>
+					</div>
+				</div>			
 			</div>
 			<div class="row">
 				<div class="col-sm-6">
 					<h3 id="lists"> lists </h3>
-					<div id="list"></div>
+					<div id="list_entries"></div>
 				</div>
 				<div class="col-sm-6">
 					<h3 id="tasks">tasks</h3>
@@ -77,9 +74,16 @@
 			<div class="actions">
 				<input type="checkbox" class='completed'>
 				<button type='button' class='delete btn btn-danger btn-xs'> x </button>
-				<button type='button' class='edit btn btn-primary btn-xs' id='actions'> edit </button>
+				<button type='button' class='edit btn btn-inverse btn-xs' id='actions'> edit </button>
 				<span style='font-weight:bold' class="word" spellcheck='false'> <%= task %>-</span>
 				<span class="definition" spellcheck='false'> <%= description %> </span>
+			</div>
+		</script>
+
+		<script type="text/template" id="list_template">
+			<div class = "list_actions">
+				<button type='button' class='delete btn btn-danger btn-xs'> x </button>
+				<span style='font-weight:bold' class="list" spellcheck='false'> <%= title %></span>
 			</div>
 		</script>
 		

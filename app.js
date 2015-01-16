@@ -2,12 +2,13 @@
 (function($){
 
 
-			//---------SINGLE ENTRY MODEL----------
+			//-----------ENTRY MODEL----------
 			var Entry = Backbone.Model.extend({
 
 					urlRoot: '/api/bears/',
 
 					defaults: function(){
+
 						return{
 
 							task: '',
@@ -15,13 +16,24 @@
 						}
 					},
 
-					parse: function(response){
-						response.id = response._id;
-						return response;
+					idAttribute: "_id"
+				});
+			//--------------LIST MODEL---------------------
+
+			var List = Backbone.Model.extend({
+
+					urlRoot: '/api/lists/',
+
+					defaults: function(){
+
+						return{
+
+							title: ''
+						}
 					},
 
-					idAttribute: "_id",
-				});
+					idAttribute: '_id'
+			});
 
 			//------------ENTRY MODEL COLLECTION------------
 			var EntryList = Backbone.Collection.extend({
@@ -31,12 +43,21 @@
 					model: Entry
 				});
 
+			//-----------LIST MODEL COLLECTION--------------
+			var ListList = Backbone.Collection.extend({
+
+					url: '/api/lists',
+
+					model: List
+			});
+
 			//-----INSTANCIATE COLLECTION----
 			var dictionary = new EntryList();
-			var lists = new EntryList();
+			var list_collection = new ListList(); 
 
 			//-----SINGLE ENTRY VIEW------
 			var EntryView = Backbone.View.extend({
+
 				model: new Entry(),
 				tagName:'div',
 				className: 'singleEntry',
@@ -106,6 +127,29 @@
 				}
 			});
 
+			//----------SINGLE LIST VIEW--------------
+			var ListView = Backbone.View.extend({
+
+					model: new List(),
+					tagName: 'div',
+					className: 'singleList',
+
+					events: {
+						
+					}
+
+					initialize: function(){
+
+						this.template = _.template($('#list_template').html());
+					},
+
+					render: function(){
+
+						this.$el.html(this.template(this.model.toJSON()));
+						return this;
+					}
+			});
+
 			//--------------DICTIONARY VIEW------------
 			var DictionaryView = Backbone.View.extend({
 
@@ -121,16 +165,100 @@
 				},
 
 				render: function(){
+
 					this.$el = $('#entries');
 
 					var self = this;
 
 					self.$el.html('');
+
 					_.each(this.model.toArray(), function(entry, i){
 						self.$el.append(new EntryView({model: entry}).render().$el);
 					});
 
 					return this;
+				}
+			});
+
+			//-------------LISTLIST VIEW----------
+
+			var ListListView = Backbone.View.extend({
+
+				model: list_collection,
+
+
+				initialize: function(){
+					this.model.fetch();
+
+					this.model.on('reset', this.render, this);
+					this.model.on('add', this.render, this);
+					// this.model.on('add', function(){
+					// 	console.log(this.model.toJSON());
+					// })
+				},
+
+				render: function(){
+
+					this.$el = $('#list_entries');
+
+					console.log(this.$el);
+
+					var self = this;
+
+					self.$el.html('');
+
+					_.each(this.model.toArray(), function(list, i){
+						self.$el.append(new ListView({model: list}).render().$el);
+
+					});
+
+					return this;
+				}
+			});
+
+			//------------HOME VIEW--------------
+			var HomeView = Backbone.View.extend({
+				el:$('#main'),
+
+				render: function(){
+
+					this.template = _.template($('#home_template').html());
+
+					this.$el.html(this.template);
+
+					$('#new-entry').submit(function(ev){
+
+						var entry = new Entry({task: $('#word').val(), description: $('#definition').val() });
+
+						dictionary.add(entry);
+
+						entry.save();
+
+						console.log(entry.toJSON());
+
+						$('#tasks-body').children('input').val('');
+
+						return false;
+				
+					});
+
+					$('#new-list').submit(function(ev){
+
+						var list_entry = new List({title: $('#list').val() });
+
+						console.log(list_entry.toJSON());
+
+						list_collection.add(list_entry);
+
+						console.log(list_collection.toJSON());
+
+						list_entry.save();
+
+						$('#list-body').children('input').val('');
+
+						return false;
+					});
+
 				}
 			});
 
@@ -158,35 +286,6 @@
 				}
 			});
 
-			//------------HOME VIEW--------------
-			var HomeView = Backbone.View.extend({
-				el:$('#main'),
-
-				render: function(){
-
-					this.template = _.template($('#home_template').html());
-
-					this.$el.html(this.template);
-
-					$('#new-entry').submit(function(ev){
-
-						var entry = new Entry({task: $('#word').val(), description: $('#definition').val() });
-
-						dictionary.add(entry);
-
-						entry.save();
-
-						console.log(dictionary.toJSON());
-
-						$('#body').children('input').val('');
-
-						return false;
-				
-					});
-
-				}
-			})
-
 			//--------------ROUTER----------------
 			var Router =  Backbone.Router.extend({
 
@@ -199,6 +298,7 @@
 
 			var homeView = new HomeView();
 			var loginView = new LoginView();
+			var listListView = new ListListView();
 			var dictionaryView = new DictionaryView();
 			var router = new Router();
 
@@ -208,6 +308,7 @@
 
 				homeView.render();
 				dictionaryView.render();
+				listListView.render();
 
 				});
 
