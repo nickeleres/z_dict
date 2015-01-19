@@ -78,7 +78,7 @@
 				delete: function(ev){
 					ev.preventDefault;
 					(this.model).destroy({success: function(model, response){
-						console.log('destroyed');
+						console.log('single entry destroyed');
 					}});
 
 				},
@@ -134,9 +134,9 @@
 					tagName: 'div',
 					className: 'singleList',
 
-					events: {
-						
-					}
+					events:{
+						'click .delete': 'delete'
+					},
 
 					initialize: function(){
 
@@ -147,6 +147,14 @@
 
 						this.$el.html(this.template(this.model.toJSON()));
 						return this;
+					},
+
+					delete: function(ev){
+						ev.preventDefault;
+
+						(this.model).destroy({success: function(model, response){
+							console.log('list destroyed');
+						}});
 					}
 			});
 
@@ -192,16 +200,13 @@
 
 					this.model.on('reset', this.render, this);
 					this.model.on('add', this.render, this);
-					// this.model.on('add', function(){
-					// 	console.log(this.model.toJSON());
-					// })
+					this.model.on('remove', this.render, this);
+					
 				},
 
 				render: function(){
 
 					this.$el = $('#list_entries');
-
-					console.log(this.$el);
 
 					var self = this;
 

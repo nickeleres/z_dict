@@ -4,10 +4,17 @@
 
 #entries, #lists, h2 {
     padding-left: 1.2em;
+
 }
 
 .singleEntry, .singleList{
 	padding-bottom: 1em;
+
+}
+
+.actions{
+    border: 1px solid grey;
+    padding: 0.33em;
 }
 
 /********/
