@@ -18,7 +18,7 @@
 
 					idAttribute: "_id"
 				});
-			//--------------LIST MODEL---------------------
+			//--------------LIST MODEL----------------
 
 			var List = Backbone.Model.extend({
 
@@ -135,7 +135,8 @@
 					className: 'singleList',
 
 					events:{
-						'click .delete': 'delete'
+						'click .delete': 'delete',
+						'click .select' : 'selected'
 					},
 
 					initialize: function(){
@@ -144,8 +145,8 @@
 					},
 
 					render: function(){
-
 						this.$el.html(this.template(this.model.toJSON()));
+
 						return this;
 					},
 
@@ -155,6 +156,12 @@
 						(this.model).destroy({success: function(model, response){
 							console.log('list destroyed');
 						}});
+					},
+
+					selected: function(ev){
+						ev.preventDefault;
+
+						console.log(this.model.id);
 					}
 			});
 
@@ -198,9 +205,9 @@
 				initialize: function(){
 					this.model.fetch();
 
-					this.model.on('reset', this.render, this);
 					this.model.on('add', this.render, this);
 					this.model.on('remove', this.render, this);
+					this.model.on('reset', this.render, this);
 					
 				},
 
@@ -214,7 +221,6 @@
 
 					_.each(this.model.toArray(), function(list, i){
 						self.$el.append(new ListView({model: list}).render().$el);
-
 					});
 
 					return this;
@@ -254,8 +260,6 @@
 						console.log(list_entry.toJSON());
 
 						list_collection.add(list_entry);
-
-						console.log(list_collection.toJSON());
 
 						list_entry.save();
 

@@ -2,7 +2,7 @@
 	padding-left: 0.75em;
 }
 
-#entries, #lists, h2 {
+#entries, #lists, h2, .list_actions {
     padding-left: 1.2em;
 
 }
@@ -13,7 +13,7 @@
 }
 
 .actions{
-    border: 1px solid grey;
+    border: 1px dashed grey;
     padding: 0.33em;
 }
 
